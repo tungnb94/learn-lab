@@ -34,7 +34,7 @@ If the document is longer than ~120 pages, such as a whole book or a long set of
 5. **Write the unit** following the `LAB.material` schema in `tools/SCHEMA.md`:
    - `summary`: 1 paragraph. `contributions`, `assumptions`, `limitations`, each 3–6 items. `limitations` includes the authors' own admissions, tagged "(authors)".
    - `readingPlan`: an order of reading for this learner. Say which parts an equity QR can skim and which need pen and paper.
-   - `outline`: one entry per section or subsection that matters. `gist` is 2–4 sentences in your own words. Add `keyIdeas` and the key `equations` as TeX without `$`.
+   - `outline`: follow the document's own table of contents, with as many entries as its logic needs — no fixed number. One entry = one coherent idea readable in one sitting: merge tiny subsections, split a long section at its natural breaks, keep the authors' order unless a prerequisite comes later (then say so in `readingPlan`). Use the document's numbering in `title` (e.g. "3.2 Kernel weights"). `gist` is 2–4 sentences in your own words. Add `keyIdeas` and the key `equations` as TeX without `$`.
    - `questions`: 7–10 deep questions using the same schema as module deep questions.
      - Use at least 4 types and include at least one `connect` and one `predict`.
      - Include a `debate` if the related-work search found a real disagreement. Both sides must cite verified refs.

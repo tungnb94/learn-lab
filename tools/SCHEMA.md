@@ -38,6 +38,7 @@ LAB.module("finance-ml", {
 ```
 
 ## Rules
+- **Lessons follow the source's table of contents**, not a fixed count. One lesson = one coherent idea a learner can finish in one sitting (roughly 6–25 min), in prerequisite order. Merge tiny subsections; split a long chapter at its natural section breaks. Don't write "lesson 2"; say "a later lesson" so lessons can be re-split.
 - Valid JSON object literal inside the call (double-quoted keys and strings), so it can be checked with `node tools/validate.js`.
 - **Math:** KaTeX syntax, inline `$…$`, display `$$…$$`. Inside JS strings every backslash is doubled: `"$\\frac{a}{b}$"`.
   `formula` fields in the cheatsheet are raw TeX without `$` delimiters (still with doubled backslashes).
