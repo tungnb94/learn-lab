@@ -47,6 +47,7 @@ tools/check-links.js                node tools/check-links.js → reference URLs
 5. Optionally add labs in `js/labs/<subject>.js` and include that file in `index.html`.
 
 ## Rules for content
+- When a strong external course exists, follow its structure and link to it instead of writing lessons (see `tools/SCHEMA.md`). Deep questions, labs, projects, teach-it and frontier are still written for every module.
 - Split lessons along the source's table of contents: as many as the logic needs, each one a single idea in prerequisite order.
 - Write everything in your own words. Exercise-based questions cite the book and exercise number, and are paraphrased and extended.
 - Every reference must be real and verified. When a URL can't be confirmed, leave it empty instead of guessing.

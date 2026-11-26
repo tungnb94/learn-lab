@@ -17,5 +17,22 @@ window.LAB_FILES = [
   "finance-ml/q/fml-cross-validation.js",
   "finance-ml/q/fml-feature-importance.js",
   "finance-ml/q/fml-backtest-overfitting.js",
-  "finance-ml/q/fml-portfolio-ml.js"
+  "finance-ml/q/fml-portfolio-ml.js",
+  "convex-opt/subject.js",
+  "convex-opt/cvx-sets.js",
+  "convex-opt/cvx-functions.js",
+  "convex-opt/cvx-problems.js",
+  "convex-opt/cvx-duality.js",
+  "convex-opt/cvx-modeling.js",
+  "convex-opt/cvx-algorithms.js",
+  "convex-opt/cvx-first-order.js",
+  "convex-opt/cvx-portfolio.js",
+  "convex-opt/q/cvx-sets.js",
+  "convex-opt/q/cvx-functions.js",
+  "convex-opt/q/cvx-problems.js",
+  "convex-opt/q/cvx-duality.js",
+  "convex-opt/q/cvx-modeling.js",
+  "convex-opt/q/cvx-algorithms.js",
+  "convex-opt/q/cvx-first-order.js",
+  "convex-opt/q/cvx-portfolio.js"
 ];

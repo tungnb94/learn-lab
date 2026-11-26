@@ -132,7 +132,7 @@
     main().innerHTML = `
       <nav class="crumbs"><a href="#/">Home</a><span>›</span><span>${esc(s.title)}</span></nav>
       <header class="page-h" style="--sc:${esc(s.color)}"><span class="glyph big" aria-hidden="true">${esc(s.glyph)}</span>
-        <div><h1>${esc(s.title)}</h1><p class="lede">${esc(s.blurb)}</p>${s.roadmap ? `<p class="meta">Roadmap: ${esc(s.roadmap)}</p>` : ""}</div></header>
+        <div><h1>${esc(s.title)}</h1><p class="lede">${esc(s.blurb)}</p>${s.roadmap ? `<p class="meta">Roadmap: ${esc(s.roadmap)}</p>` : ""}${s.course ? `<p class="meta">Follows: ${s.course.url ? `<a href="${esc(s.course.url)}" target="_blank" rel="noopener">${esc(s.course.name)}</a>` : esc(s.course.name)}${s.course.note ? ` — ${esc(s.course.note)}` : ""}</p>` : ""}</div></header>
       <ol class="modules">
         ${s.modules.map((id, i) => {
           const m = S.mods[id];
@@ -176,7 +176,7 @@
       ${m.lessons.length > 1 ? `<div class="seg" role="group" aria-label="Lessons">${m.lessons.map((x, k) => `<a href="#/m/${m.id}/learn/${k}" class="${k === i ? "on" : ""}">${st.lessons[x.id] ? "✓ " : ""}${k + 1}. ${esc(x.title)}</a>`).join("")}</div>` : ""}
       <div class="lesson-wrap">
         <aside class="toc" aria-label="On this page"><p class="eyebrow">On this page</p><ol id="toc"></ol></aside>
-        <article class="prose" id="lesson"><p class="meta">${l.minutes} min read</p><h2>${esc(l.title)}</h2>${l.html}</article>
+        <article class="prose" id="lesson">${l.html ? `<p class="meta">${l.minutes} min read</p><h2>${esc(l.title)}</h2>${l.html}` : extLesson(l)}</article>
       </div>
       <div class="lesson-foot">
         <button class="btn ${st.lessons[l.id] ? "" : "primary"}" id="markRead" type="button">${st.lessons[l.id] ? "✓ Read — mark unread" : "Mark as read"}</button>
@@ -188,6 +188,13 @@
     $("#toc").addEventListener("click", e => { const a = e.target.closest("a[data-anchor]"); if (!a) return; e.preventDefault(); document.getElementById(a.dataset.anchor).scrollIntoView({ behavior: "smooth", block: "start" }); });
     renderMath(art); renderMath($("#toc"));
     $("#markRead").addEventListener("click", () => { const s = Store.load(); if (s.lessons[l.id]) delete s.lessons[l.id]; else { s.lessons[l.id] = Store.today(); Store.touch(); } Store.save(); paneLearn(pane, m, i); });
+  }
+
+  // A lesson that follows an external course: links out, plus original focus notes (what to watch for, what to predict first).
+  function extLesson(l) {
+    return `<p class="meta">≈ ${l.minutes} min · follows an external course</p><h2>${esc(l.title)}</h2>
+      <div class="callout"><strong>Study from:</strong><ul>${(l.links || []).map(x => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)}</li>`).join("")}</ul></div>
+      ${l.focus || ""}`;
   }
 
   function paneCheat(pane, m) {
@@ -274,7 +281,7 @@
   /* ---------- teach it back ---------- */
   function paneTeach(pane, u) {
     const st = Store.load(), text = st.teach[u.id] || "";
-    const ideas = u.isMaterial ? u.outline.map(o => o.title) : (u.lessons.flatMap(l => (l.html.match(/<h3[^>]*>(.*?)<\/h3>/g) || []).map(h => strip(h))).concat(u.cheatsheet.map(c => c.term)));
+    const ideas = u.isMaterial ? u.outline.map(o => o.title) : (u.lessons.flatMap(l => [l.title].concat((l.html || l.focus || "").match(/<h3[^>]*>(.*?)<\/h3>/g) || []).map(h => strip(h))).concat(u.cheatsheet.map(c => c.term)));
     pane.innerHTML = `
       <p class="lede">Explain <b>${esc(u.title)}</b> to a junior quant researcher in about 300 words, without looking at the lesson. Gaps you cannot explain are gaps you do not understand yet.</p>
       <label class="notes big">Your explanation<textarea id="teach" rows="12" placeholder="Start from the problem it solves, then the mechanism, then when it breaks.">${esc(text)}</textarea></label>
@@ -594,7 +601,7 @@
     index = [];
     allMods().forEach(m => {
       index.push({ t: m.title, k: "Module", h: `#/m/${m.id}/learn`, x: m.title + " " + m.summary });
-      m.lessons.forEach((l, i) => index.push({ t: l.title, k: "Lesson · " + m.title, h: `#/m/${m.id}/learn/${i}`, x: l.title + " " + strip(l.html) }));
+      m.lessons.forEach((l, i) => index.push({ t: l.title, k: "Lesson · " + m.title, h: `#/m/${m.id}/learn/${i}`, x: l.title + " " + strip(l.html || l.focus || "") }));
       m.cheatsheet.forEach(c => index.push({ t: c.term, k: "Cheatsheet · " + m.title, h: `#/m/${m.id}/cheatsheet`, x: c.term + " " + (c.note || "") }));
       (m.questions || []).forEach((q, i) => index.push({ t: strip(q.prompt).slice(0, 90), k: TYPE_LABEL[q.type] + " question · " + m.title, h: `#/m/${m.id}/questions/${i}`, x: strip(q.prompt) }));
       m.frontier.threads.forEach(t => index.push({ t: t.title, k: "Frontier · " + m.title, h: `#/m/${m.id}/frontier`, x: t.title + " " + strip(t.why) }));

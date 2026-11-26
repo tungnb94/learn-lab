@@ -102,3 +102,10 @@ LAB.material({
   "openQuestions": ["…"], "brainstorm": ["…"]
 });
 ```
+
+## Subjects that follow an external course (added 2026-11-26)
+When a strong external course exists (e.g. Stanford EE364a, CS285, Karpathy), **do not write lesson prose**. Follow the course's own structure and link out; the site's value is the deep layer around it.
+- `subject.js` may set `"course": { "name": "Stanford EE364a", "url": "https://…", "note": "lectures + B&V textbook" }`.
+- Lessons follow the course's lecture/chapter order, one lesson per lecture or coherent group:
+  `{ "id": "…", "title": "…", "minutes": 80, "links": [ { "label": "EE364a lecture 3 slides", "url": "…" }, { "label": "B&V §3.1–3.2", "url": "" } ], "focus": "<p>HTML, original: what to watch for, 2–3 questions to predict before watching, the one idea to leave with</p>" }`
+- Everything else stays mandatory and original: cheatsheet, flashcards, deep questions (q/ file), projects incl. replication, frontier, labs where a simulation teaches something.

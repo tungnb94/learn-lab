@@ -135,6 +135,8 @@ main{max-width:1080px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-le
 .prose code{font:.86em var(--f-mono);background:var(--code-bg);padding:1px 5px;border-radius:4px}
 .prose pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.86rem;line-height:1.55}
 .prose pre code{background:none;padding:0}
+main pre{max-width:100%;overflow-x:auto;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.84rem;line-height:1.5}
+main pre code{background:none;padding:0;white-space:pre}
 .prose table{border-collapse:collapse;font-family:var(--f-sans);font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
 .prose th,.prose td{border:1px solid var(--line);padding:6px 10px;text-align:left}
 .prose th{background:var(--surface-2)}

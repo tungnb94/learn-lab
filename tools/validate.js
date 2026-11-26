@@ -24,6 +24,7 @@ function texBraces(s) {
 }
 function checkText(E, label, s) {
   if (dollarsOdd(s)) E(`${label}: odd number of $ delimiters`);
+  if (/[\x08\x0b\x0c]|\t[a-z]/.test(s)) E(`${label}: control character in text (a TeX backslash was lost: write \\\\ in JS strings)`);
   texBraces(s).forEach(b => E(`${label}: unbalanced braces in TeX "${b}"`));
   if (/<script|onerror=|onclick=|javascript:/i.test(s)) E(`${label}: script/handlers not allowed`);
 }
@@ -71,10 +72,12 @@ for (const f of files) {
     if (!arr(m.sources)) E('sources[] required');
     if (!arr(m.lessons)) E('lessons[] required');
     (m.lessons || []).forEach((l, i) => {
-      if (!isStr(l.id) || !isStr(l.title) || !isStr(l.html)) E(`lesson ${i}: id/title/html required`);
+      if (!isStr(l.id) || !isStr(l.title)) E(`lesson ${i}: id/title required`);
+      if (!isStr(l.html) && !(arr(l.links) && isStr(l.focus))) E(`lesson ${i}: needs html (own lesson) or links[] + focus (external-course lesson)`);
+      (l.links || []).forEach((x, j) => { if (!isStr(x.label) || typeof x.url !== 'string') E(`lesson ${i} link ${j}: label/url required`); });
       if (typeof l.minutes !== 'number') E(`lesson ${i}: minutes must be number`);
       if (ids.has(l.id)) E('duplicate lesson id ' + l.id); ids.add(l.id);
-      checkText(E, `lesson ${i}`, l.html);
+      checkText(E, `lesson ${i}`, (l.html || '') + ' ' + (l.focus || ''));
     });
     if (!arr(m.cheatsheet, 6)) E('cheatsheet: at least 6 entries');
     (m.cheatsheet || []).forEach((c, i) => { if (!isStr(c.term)) E(`cheatsheet ${i}: term required`); if (c.formula && /\$/.test(c.formula)) E(`cheatsheet ${i}: formula must not contain $`); if (c.formula) texBraces('$' + c.formula + '$').forEach(b => E(`cheatsheet ${i}: unbalanced braces`)); });
